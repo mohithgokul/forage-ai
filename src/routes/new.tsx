@@ -161,6 +161,20 @@ function NewAppPage() {
                 </div>
               )}
 
+              <div className="mt-5">
+                <div className="eyebrow mb-2" style={{ fontSize: "0.6rem" }}>// generated json config</div>
+                <pre className="p-4 rounded-md overflow-auto" style={{ 
+                  background: "#080812", 
+                  border: "1px solid rgba(255,255,255,0.06)", 
+                  fontSize: "0.75rem", 
+                  fontFamily: "var(--font-mono)", 
+                  color: "var(--forge-text-secondary)", 
+                  maxHeight: "240px" 
+                }}>
+                  {JSON.stringify(config, null, 2)}
+                </pre>
+              </div>
+
               <div className="mt-5 flex gap-3">
                 <button onClick={() => setStep(1)} className="btn-ghost">Back</button>
                 <button onClick={handleForge} className="btn-forge flex-1">Begin forge →</button>
