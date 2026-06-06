@@ -1,5 +1,3 @@
-import json
-from contextlib import asynccontextmanager
 import psycopg2
 import psycopg2.extras
 import psycopg2.pool
@@ -11,9 +9,11 @@ _pool: psycopg2.pool.ThreadedConnectionPool | None = None
 def get_pool() -> psycopg2.pool.ThreadedConnectionPool:
     global _pool
     if _pool is None:
-        _pool = psycopg2.pool.ThreadedConnectionPool(
-            2, 10, dsn=settings.DATABASE_URL
-        )
+        dsn = settings.DATABASE_URL
+        # Neon (and most managed PG) require SSL — add if not already present
+        if "sslmode" not in dsn:
+            dsn = dsn + ("&" if "?" in dsn else "?") + "sslmode=require"
+        _pool = psycopg2.pool.ThreadedConnectionPool(2, 10, dsn=dsn)
     return _pool
 
 
