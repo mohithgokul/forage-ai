@@ -48,7 +48,7 @@ function AppPage() {
   useEffect(() => {
     if (!id || !activeTable) return;
     setRecordsLoading(true);
-    api.get(`/api/data/${id}/${activeTable.name}`)
+    api.get(`/api/apps/${id}/data/${activeTable.name}`)
       .then(({ data }) => setRecords(data.records ?? []))
       .catch(() => setRecords([]))
       .finally(() => setRecordsLoading(false));
@@ -58,19 +58,19 @@ function AppPage() {
     if (!activeTable) return;
     setAddingRow(true);
     try {
-      await api.post(`/api/data/${id}/${activeTable.name}`, newRowData);
+      await api.post(`/api/apps/${id}/data/${activeTable.name}`, newRowData);
       setNewRowData({});
-      const { data } = await api.get(`/api/data/${id}/${activeTable.name}`);
+      const { data } = await api.get(`/api/apps/${id}/data/${activeTable.name}`);
       setRecords(data.records ?? []);
-    } catch (e) {
-    } finally {
-      setAddingRow(false);
+    } catch (e: any) {
+      alert(e?.response?.data?.message || e.message || "Failed to add row");
     }
+    setAddingRow(false);
   }
 
   async function handleDeleteRow(rowId: string) {
     if (!activeTable) return;
-    await api.delete(`/api/data/${id}/${activeTable.name}/${rowId}`);
+    await api.delete(`/api/apps/${id}/data/${activeTable.name}/${rowId}`);
     setRecords((r) => r.filter((row) => row.id !== rowId));
   }
 

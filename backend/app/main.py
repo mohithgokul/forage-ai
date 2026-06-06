@@ -19,11 +19,19 @@ def create_app() -> FastAPI:
         allow_headers=["Content-Type", "Authorization"],
     )
 
-    # Warm up the connection pool on first request
+    # Warm up the connection pool and run migrations
     @application.on_event("startup")
-    def startup():
+    async def startup():
         db.get_pool()
-        print(f"ForgeAI backend started. Pool ready.")
+        try:
+            import os
+            schema_path = os.path.join(os.path.dirname(__file__), "..", "schema.sql")
+            with open(schema_path, "r") as f:
+                schema_sql = f.read()
+            await db.execute(schema_sql)
+            print("ForgeAI backend started. DB schema synced.")
+        except Exception as e:
+            print("Failed to run schema.sql:", e)
 
     @application.on_event("shutdown")
     def shutdown():

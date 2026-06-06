@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { X, FolderTree, FileCode, Atom, BookOpen, Download } from "lucide-react";
 import { easeExpo } from "@/lib/motion";
+import api from "@/lib/api";
 
 interface Props {
   open: boolean;
@@ -17,11 +18,34 @@ const ARTIFACTS = [
   { Icon: BookOpen, name: "README.md", desc: "Setup + deploy instructions" },
 ];
 
-export function GitHubExportModal({ open, onClose, appName }: Props) {
+export function GitHubExportModal({ open, onClose, appName, appId }: Props) {
   const [repoName, setRepoName] = useState(appName.toLowerCase().replace(/\s+/g, "-"));
   const [includes, setIncludes] = useState([true, true, true, true]);
   const [seed, setSeed] = useState(true);
   const [pub, setPub] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  async function handleDownload() {
+    setDownloading(true);
+    try {
+      const res = await api.get(`/api/apps/${appId}/export/zip`, {
+        params: { repoName, includeSeedData: seed },
+        responseType: 'blob'
+      });
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${repoName}.zip`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+      onClose();
+    } catch (e: any) {
+      alert("Failed to download ZIP");
+    } finally {
+      setDownloading(false);
+    }
+  }
 
   const tree = `${repoName}/
 ├── 📁 prisma/
@@ -178,8 +202,12 @@ export function GitHubExportModal({ open, onClose, appName }: Props) {
             </div>
 
             <div className="border-t px-8 py-6" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <button className="btn-forge w-full">
-                <Download size={16} /> [ DOWNLOAD AS ZIP ]
+              <button 
+                onClick={handleDownload} 
+                disabled={downloading}
+                className="btn-forge w-full disabled:opacity-50"
+              >
+                <Download size={16} /> [ {downloading ? "GENERATING ZIP..." : "DOWNLOAD AS ZIP"} ]
               </button>
               <div className="eyebrow mt-3 text-center" style={{ fontSize: "0.6rem" }}>
                 // the code is 100% yours. no lock-in.
