@@ -1,0 +1,371 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   FORGEAI — Creativity Palette
+   ============================================================ */
+:root {
+  --forge-bg: #05050f;
+  --forge-bg2: #080818;
+  --forge-bg3: #0c0c22;
+  --forge-border: rgba(255, 255, 255, 0.03);
+
+  --forge-violet: #7c3aed;
+  --forge-violet-bright: #a855f7;
+  --forge-violet-glow: rgba(168, 85, 247, 0.25);
+
+  --forge-cyan: #06b6d4;
+  --forge-cyan-bright: #22d3ee;
+  --forge-cyan-glow: rgba(6, 182, 212, 0.25);
+
+  --forge-coral: #f43f5e;
+  --forge-coral-bright: #fb7185;
+  --forge-coral-glow: rgba(244, 63, 94, 0.25);
+
+  --forge-gold: #f59e0b;
+  --forge-gold-bright: #fcd34d;
+  --forge-gold-glow: rgba(245, 158, 11, 0.19);
+
+  --forge-text: #f1f0ff;
+  --forge-text-secondary: #8b8baa;
+  --forge-text-muted: #3d3d5c;
+
+  /* shadcn token aliases mapped onto forge palette */
+  --radius: 0.875rem;
+  --background: var(--forge-bg);
+  --foreground: var(--forge-text);
+  --card: var(--forge-bg2);
+  --card-foreground: var(--forge-text);
+  --popover: var(--forge-bg2);
+  --popover-foreground: var(--forge-text);
+  --primary: var(--forge-violet);
+  --primary-foreground: var(--forge-text);
+  --secondary: var(--forge-bg3);
+  --secondary-foreground: var(--forge-text);
+  --muted: var(--forge-bg3);
+  --muted-foreground: var(--forge-text-secondary);
+  --accent: var(--forge-violet);
+  --accent-foreground: var(--forge-text);
+  --destructive: var(--forge-coral);
+  --destructive-foreground: var(--forge-text);
+  --border: var(--forge-border);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: var(--forge-violet-bright);
+
+  --font-display: "Syne", "Inter", sans-serif;
+  --font-mono: "DM Mono", "JetBrains Mono", monospace;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-forge-bg: var(--forge-bg);
+  --color-forge-bg2: var(--forge-bg2);
+  --color-forge-bg3: var(--forge-bg3);
+  --color-forge-violet: var(--forge-violet);
+  --color-forge-violet-bright: var(--forge-violet-bright);
+  --color-forge-cyan: var(--forge-cyan);
+  --color-forge-cyan-bright: var(--forge-cyan-bright);
+  --color-forge-coral: var(--forge-coral);
+  --color-forge-coral-bright: var(--forge-coral-bright);
+  --color-forge-gold: var(--forge-gold);
+  --color-forge-gold-bright: var(--forge-gold-bright);
+  --color-forge-text: var(--forge-text);
+  --color-forge-text-secondary: var(--forge-text-secondary);
+  --color-forge-text-muted: var(--forge-text-muted);
+
+  --font-display: "Syne", sans-serif;
+  --font-mono: "DM Mono", monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--forge-bg);
+    color: var(--forge-text);
+    font-family: var(--font-mono);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Pixel grid background */
+  body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.15), transparent),
+      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(6, 182, 212, 0.1), transparent),
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size:
+      auto,
+      auto,
+      40px 40px,
+      40px 40px;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  /* Custom cursor — hide system cursor on fine pointers */
+  @media (pointer: fine) {
+    html,
+    body,
+    * {
+      cursor: none !important;
+    }
+  }
+
+  ::selection {
+    background: var(--forge-violet-glow);
+    color: var(--forge-text);
+  }
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+
+.glass-card {
+  background: rgba(8, 8, 24, 0.6);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition:
+    border-color 350ms ease,
+    box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(168, 85, 247, 0.25);
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.2),
+    0 8px 48px rgba(124, 58, 237, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glow-violet {
+  box-shadow:
+    0 0 40px var(--forge-violet-glow),
+    0 0 80px var(--forge-violet-glow);
+}
+.glow-cyan {
+  box-shadow:
+    0 0 40px var(--forge-cyan-glow),
+    0 0 80px var(--forge-cyan-glow);
+}
+.glow-coral {
+  box-shadow: 0 0 40px var(--forge-coral-glow);
+}
+
+/* Primary button — shimmer wipe */
+.btn-forge {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--forge-text);
+  background: linear-gradient(135deg, var(--forge-violet) 0%, var(--forge-violet-bright) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 0 24px rgba(124, 58, 237, 0.25);
+  transition:
+    background-color 200ms ease,
+    box-shadow 300ms ease,
+    transform 150ms ease,
+    border-color 200ms ease;
+}
+.btn-forge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: translateX(-100%);
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-forge:hover::after {
+  transform: translateX(200%);
+}
+.btn-forge:hover {
+  box-shadow:
+    0 0 40px var(--forge-violet-glow),
+    0 0 80px var(--forge-violet-glow);
+  border-color: var(--forge-violet-bright);
+}
+.btn-forge:active {
+  transform: scale(0.96);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--forge-text);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition:
+    border-color 250ms ease,
+    background-color 250ms ease;
+}
+.btn-ghost:hover {
+  border-color: var(--forge-cyan-bright);
+  background: rgba(34, 211, 238, 0.05);
+}
+
+.input-forge {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--forge-text);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  outline: none;
+  transition:
+    box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 250ms ease;
+}
+.input-forge:focus {
+  border-color: var(--forge-violet-bright);
+  box-shadow: 0 0 0 3px var(--forge-violet-glow);
+}
+
+/* Nav underline */
+.nav-link {
+  position: relative;
+  color: var(--forge-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition:
+    color 200ms ease,
+    opacity 200ms ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background: var(--forge-violet-bright);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover {
+  color: var(--forge-violet-bright);
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(90deg, #12121e 0px, #1e1e3a 100px, #12121e 200px);
+  background-size: 800px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* Section heading display utility */
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.75rem, 7vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--forge-text-secondary);
+}
+
+.text-gradient-violet-cyan {
+  background: linear-gradient(135deg, var(--forge-violet-bright), var(--forge-cyan-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
