@@ -1,16 +1,22 @@
-import { QueryClient } from "@tanstack/react-query";
-import { createRouter } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { createBrowserRouter } from 'react-router-dom'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import Landing from './pages/Landing'
+import Auth from './pages/Auth'
+import Dashboard from './pages/Dashboard'
+import NewApp from './pages/NewApp'
+import AppView from './pages/AppView'
+import Settings from './pages/Settings'
 
-export const getRouter = () => {
-  const queryClient = new QueryClient();
-
-  const router = createRouter({
-    routeTree,
-    context: { queryClient },
-    scrollRestoration: true,
-    defaultPreloadStaleTime: 0,
-  });
-
-  return router;
-};
+export const router = createBrowserRouter([
+  { path: '/',     element: <Landing /> },
+  { path: '/auth', element: <Auth /> },
+  {
+    element: <ProtectedRoute />,
+    children: [
+      { path: '/dashboard',  element: <Dashboard /> },
+      { path: '/new',        element: <NewApp /> },
+      { path: '/apps/:id',   element: <AppView /> },
+      { path: '/settings',   element: <Settings /> },
+    ]
+  }
+])
